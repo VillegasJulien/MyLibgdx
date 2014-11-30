@@ -25,7 +25,7 @@ particle.clear();
 
 //create particles ( array is better )
 exploseSmall = myParticles.createEffect(myParticles.pool.get("explosion_small"));
-exploseBig = myParticles.createEffect(myParticles.pool.get("explosion_small"));
+exploseBig = myParticles.createEffect(myParticles.pool.get("explosion_big"));
 
 //render methode
 modelBatch.begin(camera);
