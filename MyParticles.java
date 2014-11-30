@@ -96,17 +96,7 @@ public class MyParticles implements EffectCallback {
         return effect;
     }
 
-    public void remove(CustomModelLoader.GameObject instance){
-        Iterator it = instance.particles.entrySet().iterator();
-        while (it.hasNext()) {
-            HashMap.Entry<String, ParticleEffect> pairs = (HashMap.Entry<String, ParticleEffect>)it.next();
-            free(pairs.getValue());
-            pairs.getValue().dispose();
-            it.remove();
-        }
-    }
-
-    public void free(final ParticleEffect effect){
+    public void free(final ParticleEffect effect, float timer){
         Emitter emitter = effect.getControllers().first().emitter;
         if (emitter instanceof RegularEmitter) {
             RegularEmitter reg = (RegularEmitter) emitter;
@@ -116,20 +106,20 @@ public class MyParticles implements EffectCallback {
         }
         emitter.dispose();
 
-				//start dirty code
+        //start dirty code
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 finish(effect);
             }
-        }, 1f);
-				//end dirty code
-        effect.dispose();
+        }, timer);
+        //end dirty code
     }
 
     @Override
     public void finish(ParticleEffect effect) {
         particleSystem.remove(effect);
+        effect.dispose();
     }
 
     public void dispose(){
